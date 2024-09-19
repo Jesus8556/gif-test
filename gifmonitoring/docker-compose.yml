@@ -1,0 +1,31 @@
+services:
+  netdata:
+    image: netdata/netdata
+    container_name: netdata
+    hostname: 184.72.137.176
+    ports:
+      - 19999:19999
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - netdataconfig:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NETDATA_CLAIM_URL=https://app.netdata.cloud
+      - NETDATA_CLAIM_TOKEN=tu_token_aquí
+      - NETDATA_CLAIM_ROOMS=tu_room_aquí
+
+volumes:
+  netdataconfig:
+  netdatalib:
+  netdatacache:
